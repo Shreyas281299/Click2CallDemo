@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Webex Click-to-Call Test App</title>
+
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -15,7 +16,6 @@
         margin: 0;
         padding: 0;
       }
-
       #app-container {
         background-color: #ffffff;
         border-radius: 8px;
@@ -30,7 +30,7 @@
         color: white;
         border: none;
         cursor: pointer;
-        width: auto; /* Full width minus padding */
+        width: auto;
         padding: 10px;
         margin: 10px 0;
         border-radius: 4px;
@@ -58,7 +58,7 @@
         cursor: pointer;
         font-size: 16px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: auto; /* Automatic width based on content */
+        width: auto;
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -68,11 +68,42 @@
       #callButton:hover {
         background-color: #218838;
       }
+
+      #callDisconnect {
+        background-color: #dc3545;
+        color: white;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 10px;
+        text-align: center;
+      }
+
+      #callDisconnect:hover {
+        background-color: #c82333;
+      }
+
+      #callDisconnect:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     </style>
   </head>
+
   <body>
     <div id="app-container">
       <h1>Webex Click-to-Call</h1>
+
+      <audio id="remote-audio" autoplay></audio>
+
       <div id="guest-container" class="hidden">
         <input
           id="guest-token"
@@ -81,9 +112,11 @@
           value=""
           type="text"
         />
+
         <button type="button" onclick="getGuestToken()">
           Generate Guest Token
         </button>
+
         <input
           id="jwt-token-for-dest"
           name="jwtToken"
@@ -91,13 +124,27 @@
           value=""
           type="text"
         />
+
         <button type="button" onclick="getJweToken()">Generate JWE</button>
       </div>
-      <button id="callButton">Call</button>
+
+      <!-- 
+        2. Initializes Webex SDK  
+        3. Registers calling client
+        4. Creates and manages the call
+      -->
+      <button id="callButton" onclick="initializeCallingAndMakeCall()">
+        Call
+      </button>
+
+      <button id="callDisconnect" onclick="disconnectCall()" disabled>
+        Disconnect
+      </button>
+
       <p id="message"></p>
-      <button id="test" onclick="handler()">Test</button>
     </div>
-    <script src="https://unpkg.com/webex@3.5.0-next.25/umd/calling.min.js"></script>
+
+    <script src="https://unpkg.com/webex@3.8.1-next.41/umd/calling.min.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
