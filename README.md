@@ -40,7 +40,7 @@ Update the destination number in the `getJweToken()` function:
 
 ```javascript
 const payload = JSON.stringify({
-  calledNumber: "+17753106968", // Update with your destination number
+  calledNumber: "+12345678", // Update with your destination number
   guestName: "Harvey",
 });
 ```
